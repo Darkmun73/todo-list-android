@@ -61,12 +61,6 @@ fun TodoListScreen(
     showBackground = true,
     showSystemUi = true
 )
-@Preview(
-    name = "Dark Mode",
-    showBackground = true,
-    showSystemUi = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
 @Composable
 fun TodoListScreenPreview() {
     TODOListTheme {
