@@ -8,7 +8,8 @@ private val LightColorScheme = lightColorScheme(
     secondaryContainer = BlackBlue,
     onSecondaryContainer = White100,
     surfaceContainerLow = White100,
-    onSurfaceVariant = GrayBlue80
+    onSurfaceVariant = GrayBlue80,
+    background = White98
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
