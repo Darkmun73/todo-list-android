@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TODO List</string>
+    <string name="all_tab">Все</string>
+    <string name="new_tab">Новые</string>
+    <string name="in_progress_tab">В работе</string>
+    <string name="done_tab">Готово</string>
 </resources>

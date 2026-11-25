@@ -1,5 +1,6 @@
 package io.github.darkmun.todolist.ui.todolist
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,10 +13,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import io.github.darkmun.todolist.R
 import io.github.darkmun.todolist.ui.theme.TODOListTheme
 
 @Composable
@@ -49,11 +52,19 @@ fun TodoListScreen(
                 ElevatedFilterChip(
                     selected = uiState.selectedList == type,
                     onClick = { onSelectList(type) },
-                    label = { Text(type.label) }
+                    label = { Text(stringResource(type.getLabelResourceId())) }
                 )
             }
         }
     }
+}
+
+@StringRes
+private fun TodoListType.getLabelResourceId() = when (this) {
+    TodoListType.ALL -> R.string.all_tab
+    TodoListType.NEW -> R.string.new_tab
+    TodoListType.IN_PROGRESS -> R.string.in_progress_tab
+    TodoListType.DONE -> R.string.done_tab
 }
 
 @Preview(
