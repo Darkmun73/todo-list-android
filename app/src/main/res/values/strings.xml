@@ -14,4 +14,6 @@
     <string name="mark_done_button">Выполнить</string>
     <string name="delete_button">Удалить</string>
     <string name="done_label">Задача завершена</string>
+
+    <string name="add_task_button">Новая задача</string>
 </resources>

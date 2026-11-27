@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedFilterChip
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -14,10 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import io.github.darkmun.todolist.R
+import io.github.darkmun.todolist.ui.icons.add
 import io.github.darkmun.todolist.ui.theme.TODOListTheme
 
 @Composable
@@ -38,7 +43,8 @@ fun TodoListScreen(
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = MaterialTheme.colorScheme.background,
+        floatingActionButton = { AddTaskButton {} }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -60,6 +66,25 @@ fun TodoListScreen(
             }
         }
     }
+}
+
+@Composable
+private fun AddTaskButton(onAddTask: () -> Unit) {
+    ExtendedFloatingActionButton(
+        onClick = onAddTask,
+        icon = {
+            Icon(
+                imageVector = add,
+                contentDescription = null
+            )
+        },
+        text = {
+            Text(
+                text = stringResource(R.string.add_task_button),
+                fontWeight = FontWeight.Bold
+            )
+        }
+    )
 }
 
 @Preview(

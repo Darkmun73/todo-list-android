@@ -34,6 +34,8 @@ val LightStatusColors = StatusColors(
 )
 
 private val LightColorScheme = lightColorScheme(
+    primaryContainer = CharmingBlue37,
+    onPrimaryContainer = White100,
     secondaryContainer = BlackBlue,
     onSecondaryContainer = White100,
     surfaceContainerLow = White100,
