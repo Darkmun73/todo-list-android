@@ -9,4 +9,9 @@
     <string name="new_status">Новая</string>
     <string name="in_progress_status">В работе</string>
     <string name="done_status">Выполнена</string>
+
+    <string name="mark_in_progress_button">В работу</string>
+    <string name="mark_done_button">Выполнить</string>
+    <string name="delete_button">Удалить</string>
+    <string name="done_label">Задача завершена</string>
 </resources>

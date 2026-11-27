@@ -10,12 +10,10 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -38,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.darkmun.todolist.R
 import io.github.darkmun.todolist.domain.model.TaskStatus
+import io.github.darkmun.todolist.ui.icons.check
 import io.github.darkmun.todolist.ui.icons.delete
 import io.github.darkmun.todolist.ui.icons.play_arrow
 import io.github.darkmun.todolist.ui.theme.DuoPalette
@@ -101,6 +100,154 @@ fun TaskCard(onClick: () -> Unit, modifier: Modifier = Modifier, taskUiState: Ta
 
 @Composable
 fun TaskCardFooter(taskStatus: TaskStatus, modifier: Modifier = Modifier) {
+    when (taskStatus) {
+        TaskStatus.NEW -> NewStatusTaskCardFooter({}, {}, modifier = modifier)
+        TaskStatus.IN_PROGRESS -> InProgressStatusTaskCardFooter({}, modifier = modifier)
+        TaskStatus.DONE -> DoneStatusTaskCardFooter(modifier = modifier)
+    }
+}
+
+@Composable
+fun NewStatusTaskCardFooter(
+    onChangeStatus: () -> Unit,
+    onDelete: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val inProgressPalette = TaskStatus.IN_PROGRESS.getColorPalette()
+
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(15.dp)
+    ) {
+        TaskCardButton(
+            onClick = onChangeStatus,
+            containerColor = inProgressPalette.secondary,
+            contentColor = inProgressPalette.primary
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = play_arrow,
+                    contentDescription = null
+                )
+                Text(
+                    text = stringResource(R.string.mark_in_progress_button),
+                    fontWeight = FontWeight.ExtraBold,
+                    style = MaterialTheme.typography.labelMedium
+                )
+
+            }
+        }
+        TaskCardButton(
+            onClick = onDelete,
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+            contentColor = MaterialTheme.colorScheme.error
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = delete,
+                    contentDescription = null
+                )
+                Text(
+                    text = stringResource(R.string.delete_button),
+                    fontWeight = FontWeight.ExtraBold,
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun InProgressStatusTaskCardFooter(
+    onChangeStatus: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val donePalette = TODOListTheme.statusColors.doneStatus
+    TaskCardButton(
+        onClick = onChangeStatus,
+        modifier = modifier,
+        containerColor = donePalette.secondary,
+        contentColor = donePalette.primary
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = check,
+                contentDescription = null
+            )
+            Text(
+                text = stringResource(R.string.mark_done_button),
+                fontWeight = FontWeight.ExtraBold,
+                style = MaterialTheme.typography.labelMedium
+            )
+
+        }
+    }
+}
+@Composable
+fun DoneStatusTaskCardFooter(
+    modifier: Modifier = Modifier
+) {
+    val donePalette = TODOListTheme.statusColors.doneStatus
+    val buttonsDefaultPadding = ButtonDefaults.ContentPadding
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .padding(
+                top = buttonsDefaultPadding.calculateTopPadding(),
+                bottom = buttonsDefaultPadding.calculateBottomPadding()
+            )
+    ) {
+        Icon(
+            imageVector = check,
+            contentDescription = null,
+            tint = donePalette.primary
+        )
+        Text(
+            text = stringResource(R.string.done_label),
+            color = donePalette.primary,
+            fontWeight = FontWeight.ExtraBold,
+            style = MaterialTheme.typography.labelMedium
+        )
+
+    }
+}
+
+@Composable
+fun TaskCardButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    containerColor: Color,
+    contentColor: Color,
+    border: BorderStroke? = null,
+    content: @Composable (RowScope.() -> Unit)
+) {
+    val defaultButtonColors = ButtonDefaults.buttonColors()
+
+    Button(
+        onClick = onClick,
+        colors = ButtonColors(
+            contentColor = contentColor,
+            containerColor = containerColor,
+            disabledContentColor = defaultButtonColors.disabledContentColor,
+            disabledContainerColor = defaultButtonColors.disabledContainerColor
+        ),
+        modifier = modifier,
+        contentPadding = PaddingValues(horizontal = 15.dp),
+        shape = MaterialTheme.shapes.large,
+        border = border,
+        content = content
+    )
 }
 
 @Composable
@@ -159,7 +306,7 @@ fun TaskCardPreview() {
             modifier = Modifier
                 .fillMaxWidth(),
             TaskUiState(
-                status = TaskStatus.NEW,
+                status = TaskStatus.DONE,
                 shortDescription = "Пример краткого описания",
                 dateTime = "26.11.2026, 15:33"
             )
