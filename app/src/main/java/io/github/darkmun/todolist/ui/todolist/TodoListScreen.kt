@@ -1,6 +1,7 @@
 package io.github.darkmun.todolist.ui.todolist
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,19 +40,23 @@ fun TodoListScreen(
             .fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(innerPadding)
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 30.dp)
         ) {
-            TodoListType.entries.forEach { type ->
-                ElevatedFilterChip(
-                    selected = uiState.selectedList == type,
-                    onClick = { onSelectList(type) },
-                    label = { Text(stringResource(type.getLabelResourceId())) }
-                )
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                TodoListType.entries.forEach { type ->
+                    ElevatedFilterChip(
+                        selected = uiState.selectedList == type,
+                        onClick = { onSelectList(type) },
+                        label = { Text(stringResource(type.getLabelResourceId())) }
+                    )
+                }
             }
         }
     }
